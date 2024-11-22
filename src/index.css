@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-background text-white min-h-screen;
+}
+
+#root {
+  @apply min-h-screen;
+}
+
+.gradient-banner {
+  @apply bg-gradient-to-r from-primary to-secondary;
+}
+
+/* Navbar Styles */
+.navbar-blur {
+  @apply bg-surface/80 backdrop-blur-md border-b border-surface-light/50;
+}
+
+/* Activity Grid */
+.activity-grid-container {
+  @apply w-full overflow-x-auto py-4;
+}
+
+.activity-grid {
+  @apply grid gap-1 mx-auto max-w-[800px];
+  grid-template-columns: repeat(53, minmax(0, 1fr));
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+  aspect-ratio: 53/7;
+}
+
+/* TipTap Editor Styles */
+.ProseMirror {
+  @apply text-gray-300;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  @apply text-gray-500;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror h1 {
+  @apply text-2xl font-bold mb-4;
+}
+
+.ProseMirror h2 {
+  @apply text-xl font-bold mb-3;
+}
+
+.ProseMirror p {
+  @apply mb-2;
+}
+
+.ProseMirror ul {
+  @apply list-disc pl-6 mb-2;
+}
+
+.ProseMirror ol {
+  @apply list-decimal pl-6 mb-2;
+}
+
+.ProseMirror code {
+  @apply bg-surface-light px-1.5 py-0.5 rounded;
+}
+
+.ProseMirror pre {
+  @apply bg-surface-light p-4 rounded-lg mb-2;
+}
+
+.ProseMirror a {
+  @apply text-primary hover:text-primary/90 underline;
+}
+
+.ProseMirror blockquote {
+  @apply border-l-4 border-primary pl-4 italic my-2;
+}
