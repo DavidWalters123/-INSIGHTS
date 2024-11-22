@@ -1,0 +1,38 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Allow read access to all signed-in users for all images
+    match /{allImages=**} {
+      allow read: if isSignedIn();
+    }
+
+    // Avatar rules
+    match /avatars/{userId}/{fileName} {
+      allow write: if isOwner(userId);
+    }
+
+    // Banner rules
+    match /banners/{userId}/{fileName} {
+      allow write: if isOwner(userId);
+    }
+
+    // Thumbnail rules
+    match /thumbnails/{userId}/{fileName} {
+      allow write: if isOwner(userId);
+    }
+
+    // General image rules
+    match /images/{userId}/{fileName} {
+      allow write: if isOwner(userId);
+    }
+  }
+}
