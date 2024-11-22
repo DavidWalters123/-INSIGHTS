@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Reward transactions
+    match /reward_transactions/{transactionId} {
+      allow read: if isSignedIn() && 
+        request.auth.uid == resource.data.userId;
+      allow create: if false; // Only through server functions
+    }
+
+    // User credits and achievements
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow update: if isOwner(userId) && 
+        (!request.resource.data.diff(resource.data).affectedKeys()
+          .hasAny(['credits', 'achievements'])); // Prevent direct credit/achievement updates
+    }
+
+    // Rest of your existing rules...
+  }
+}
